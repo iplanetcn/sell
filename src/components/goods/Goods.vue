@@ -37,19 +37,23 @@
                   <span class="now">¥{{food.price}}</span>
                   <span class="old" v-show="food.oldPrice">¥{{food.oldPrice}}</span>
                 </div>
+                <div class="quantity-controller-wrapper">
+                  <v-quantity-controller :food="food"></v-quantity-controller>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-    <v-cart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></v-cart>
+    <v-shopping-cart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></v-shopping-cart>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll'
-import Cart from '../../components/cart/Cart'
+import ShoppingCart from '../shopping-cart/ShoppingCart'
+import QuantityController from '../quantity-controller/QuantityController'
 
 const ERR_OK = 0
 export default {
@@ -92,6 +96,7 @@ export default {
         click: true
       })
       this.foodScroll = new BScroll(this.$refs.foodsWrapper, {
+        click: true,
         probeType: 3
       })
 
@@ -122,10 +127,23 @@ export default {
       }
 
       return 0
+    },
+    selectFoods () {
+      let foods = []
+      this.goods.forEach((good) => {
+        good.foods.forEach((food) => {
+          if (food.count) {
+            foods.push(food)
+          }
+        })
+      })
+
+      return foods
     }
   },
   components: {
-    'v-cart': Cart
+    'v-shopping-cart': ShoppingCart,
+    'v-quantity-controller': QuantityController
   }
 }
 </script>
@@ -261,5 +279,10 @@ export default {
               text-decoration line-through
               font-size 10px
               color rgb(147, 153, 159)
+
+          .quantity-controller-wrapper
+            position absolute
+            right 0
+            bottom 12px
 
 </style>

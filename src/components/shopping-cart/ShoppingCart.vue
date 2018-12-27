@@ -24,9 +24,7 @@ export default {
     selectFoods: {
       type: Array,
       default () {
-        return [
-          {price: 10, count: 1}
-        ]
+        return []
       }
     },
     deliveryPrice: {
@@ -67,7 +65,7 @@ export default {
       return this.totalPrice < this.minPrice ? 'not-enough' : 'enough'
     }
   },
-  name: 'Cart'
+  name: 'ShoppingCart'
 }
 </script>
 

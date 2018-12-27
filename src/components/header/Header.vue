@@ -246,14 +246,12 @@ export default {
       transition all 0.5s
       background rgba(7, 17, 27, 0.8)
 
-      &.fade-enter, &.fade-leave-to {
+      &.fade-enter, &.fade-leave-to
         opacity 0
-        transform translateY(100%);
-      }
+        transform translateY(100%)
 
-      &.fade-enter-active, &.fade-leave-active {
-        transition opacity transform 0.5s
-      }
+      &.fade-enter-active, &.fade-leave-active
+        transition opacity transform
 
       .detail-wrapper
         width 100%
