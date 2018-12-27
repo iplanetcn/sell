@@ -2,8 +2,11 @@
   <div class="goods">
     <div class="menu-wrapper" ref="menuWrapper">
       <ul>
-        <li v-for="(item, index) in goods" class="menu-item" :class="{ 'current': currentIndex===index }"
-            :key="item.index">
+        <li v-for="(item, index) in goods"
+            class="menu-item"
+            :class="{ 'current': currentIndex===index }"
+            :key="item.index"
+            @click="selectMenu(index, $event)">
           <span class="text border-1px">
             <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
           </span>
@@ -12,10 +15,14 @@
     </div>
     <div class="foods-wrapper" ref="foodsWrapper">
       <ul>
-        <li v-for="item in goods" class="food-list food-list-hook" :key="item.index">
+        <li v-for="item in goods"
+            class="food-list food-list-hook"
+            :key="item.index">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="food in item.foods" class="food-item border-1px" :key="food.index">
+            <li v-for="food in item.foods"
+                class="food-item border-1px"
+                :key="food.index">
               <div class="icon">
                 <img width="57px" height="57px" :src="food.icon" alt="food icon">
               </div>
@@ -36,11 +43,13 @@
         </li>
       </ul>
     </div>
+    <v-cart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></v-cart>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll'
+import Cart from '../../components/cart/Cart'
 
 const ERR_OK = 0
 export default {
@@ -70,8 +79,18 @@ export default {
     })
   },
   methods: {
+    selectMenu (index, event) {
+      if (!event._constructed) {
+        return
+      }
+      let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook')
+      let el = foodList[index]
+      this.foodScroll.scrollToElement(el, 300)
+    },
     _initScroll () {
-      this.menuScroll = new BScroll(this.$refs.menuWrapper, {})
+      this.menuScroll = new BScroll(this.$refs.menuWrapper, {
+        click: true
+      })
       this.foodScroll = new BScroll(this.$refs.foodsWrapper, {
         probeType: 3
       })
@@ -89,7 +108,6 @@ export default {
         let item = foodList[i]
         height += item.clientHeight
         this.listHeight.push(height)
-        console.log('--->' + height)
       }
     }
   },
@@ -99,14 +117,15 @@ export default {
         let height = this.listHeight[i]
         let nextHeight = this.listHeight[i + 1]
         if (!nextHeight || (this.scrollY >= height && this.scrollY < nextHeight)) {
-          console.log('return:' + i)
           return i
         }
       }
 
-      console.log('return:' + 0)
       return 0
     }
+  },
+  components: {
+    'v-cart': Cart
   }
 }
 </script>

@@ -1,6 +1,6 @@
-# sell
+# sell 
 
-> sell app
+> sell app 慕课网Vue仿饿了么(源代码)
 
 ## Build Setup
 
