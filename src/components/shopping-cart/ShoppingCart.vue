@@ -15,6 +15,11 @@
         <div class="pay" :class="payClass">{{payDesc}}</div>
       </div>
     </div>
+    <div class="ball-container">
+        <transition name="drop">
+          <div class="ball" v-for="ball in balls" v-show="ball.show" :key="ball.index"></div>
+        </transition>
+      </div>
   </div>
 </template>
 
@@ -32,6 +37,27 @@ export default {
     },
     minPrice: {
       type: Number
+    }
+  },
+  data () {
+    return {
+      balls: [
+        {
+          show: false
+        },
+        {
+          show: false
+        },
+        {
+          show: false
+        },
+        {
+          show: false
+        },
+        {
+          show: false
+        }
+      ]
     }
   },
   computed: {
@@ -178,4 +204,10 @@ export default {
             background #00b43c
             color rgb(255, 255, 255)
 
+    .ball-container
+      .ball
+       position fixed
+       left 32px
+       bottom 22px
+       z-index 200
 </style>
